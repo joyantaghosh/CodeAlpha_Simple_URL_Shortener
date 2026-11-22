@@ -1,5 +1,5 @@
 import express from "express";
-
+import {validateUrl} from "../middleware/validate.middleware.js";
 import {
   shortenUrl,
   redirectUrl
@@ -7,7 +7,7 @@ import {
 
 const router = express.Router();
 
-router.post("/shorten", shortenUrl);
+router.post("/shorten",validateUrl, shortenUrl);
 
 router.get("/:shortCode", redirectUrl);
 
