@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+jspm_packages/
+
+# Environment variables (Crucial for keeping API keys and DB secrets safe)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Build & TypeScript output
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data & process managers
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Test coverage & caches
+coverage/
+.nyc_output/
+.eslintcache
+.stylelintcache
+.npm/
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Local databases & uploads (uncomment if storing locally during dev)
+# *.sqlite
+# *.sqlite3
+# uploads/
+# public/uploads/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Operating System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
