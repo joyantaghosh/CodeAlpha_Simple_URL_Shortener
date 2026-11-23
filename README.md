@@ -51,7 +51,9 @@ prisma/
 1. Clone the repository and enter the project directory:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/joyantaghosh/CodeAlpha_Simple_URL_Shortener.git
+   ```
+   ```bash
    cd url_shortner
    ```
 
@@ -91,6 +93,8 @@ Generate the Prisma client and apply the existing migration:
 
 ```bash
 npx prisma generate
+```
+```bash
 npx prisma migrate deploy
 ```
 
