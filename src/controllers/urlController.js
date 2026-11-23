@@ -1,5 +1,10 @@
-import { nanoid } from "nanoid";
-import prisma from "../db/prisma.js";
+import {
+  createShortUrl,
+  getOriginalUrl,
+  incrementClicks
+} from "../services/url.service.js";
+
+import { env } from "../config/env.js";
 
 // Create short URL
 export const shortenUrl = async (req, res) => {
@@ -28,28 +33,9 @@ export const shortenUrl = async (req, res) => {
       });
     }
 
-    // Generate unique code
-    let shortCode;
-    let existingUrl;
+    const newUrl = await createShortUrl(parsedUrl.href);
 
-    do {
-      shortCode = nanoid(7);
-
-      existingUrl = await prisma.url.findUnique({
-        where: { shortCode }
-      });
-    } while (existingUrl);
-
-    // Save URL to database
-    const newUrl = await prisma.url.create({
-      data: {
-        originalUrl: parsedUrl.href,
-        shortCode
-      }
-    });
-
-    const shortUrl =
-      `${process.env.BASE_URL}/${newUrl.shortCode}`;
+    const shortUrl = `${env.BASE_URL}/${newUrl.shortCode}`;
 
     return res.status(201).json({
       success: true,
@@ -60,7 +46,6 @@ export const shortenUrl = async (req, res) => {
         shortUrl
       }
     });
-
   } catch (error) {
     console.error(error);
 
@@ -76,9 +61,7 @@ export const redirectUrl = async (req, res) => {
   try {
     const { shortCode } = req.params;
 
-    const url = await prisma.url.findUnique({
-      where: { shortCode }
-    });
+    const url = await getOriginalUrl(shortCode);
 
     if (!url) {
       return res.status(404).json({
@@ -87,18 +70,9 @@ export const redirectUrl = async (req, res) => {
       });
     }
 
-    // Update click count
-    await prisma.url.update({
-      where: { shortCode },
-      data: {
-        clicks: {
-          increment: 1
-        }
-      }
-    });
+    await incrementClicks(shortCode);
 
     return res.redirect(302, url.originalUrl);
-
   } catch (error) {
     console.error(error);
 
